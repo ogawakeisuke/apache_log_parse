@@ -23,8 +23,10 @@ end
 
 
 
-File.open("out.txt", "w") do |io|
-  request_hashes.each_pair do |k,v|
-    io.puts  "#{k} = #{v}"
-  end
-end
+
+
+# File.open("out.txt", "w") do |io|
+#   request_hashes.each_pair do |k,v|
+#     io.puts  "#{k} = #{v}"
+#   end
+# end
