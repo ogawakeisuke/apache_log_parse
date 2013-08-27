@@ -17,10 +17,8 @@ def access_info_create(entry)
 end
 
 
-# DOWNLOADS_ROOT = "/Users/ogawa/Downloads/"
-# Dir.glob("#{DOWNLOADS_ROOT}log/access_lo*")
-
-Dir.glob("access_lo*").sort.each_with_index do |f, i|
+DOWNLOADS_ROOT = "/Users/ogawa/Downloads/"
+Dir.glob("#{DOWNLOADS_ROOT}log/access_lo*").sort.each_with_index do |f, i|
   entries = []
   File.foreach(f) do |line|
     entries << ApacheLog.parse(line.chomp)
