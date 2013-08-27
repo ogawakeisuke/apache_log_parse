@@ -1,5 +1,6 @@
 require "./apache_log"
 require "./access_info"
+require "pp"
 
 request_hashes = Hash.new
 
@@ -34,17 +35,25 @@ end
 # end
 
 
+# DOWNLOADS_ROOT = "/Users/ogawa/Downloads/"
+# Dir.glob("#{DOWNLOADS_ROOT}log/access_lo*")
 
 Dir.glob("access_lo*").sort.each_with_index do |f, i|
-  entries = Array.new().collect { Array.new }
-  entries_count = 0
-
+  entries = []
   File.foreach(f) do |line|
-    a = ApaccheLog.parse(line.chomp)
-    entries[entries_count] <<  a
-    entries_count += 1 unless a.datetime == entries.last.datetime
+    entries << ApacheLog.parse(line.chomp)
   end
- 
+
+  # TODO refactaring
+  # wordpressなどの単語を除外
+  # datetimeが同じものでgroup
+  entries = entries.delete_if { |e| e.request[:path] =~ /wordpress/ }.group_by {|entry| entry.datetime.to_date }
+
+  entries.each do |date_key, entry_collection|
+    entries[date_key] = entry_collection.group_by {|e| e.request[:path] }
+  end
+  pp entries
+
 end
 
 
