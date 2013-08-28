@@ -11,7 +11,7 @@ Dir.glob("#{DOWNLOADS_ROOT}log/access_lo*").sort.each_with_index do |f, i|
   end
 
   #
-  # wordpressなどの単語を除外し、datetimeが同じものの集合を作る
+  # wordpress周りを除外し、datetimeが同じものの集合を作る
   #
   entries = entries.delete_if { |e| e.request[:path] =~ /wordpress/ }.group_by {　|entry| entry.datetime.to_date }
 
@@ -29,7 +29,7 @@ Dir.glob("#{DOWNLOADS_ROOT}log/access_lo*").sort.each_with_index do |f, i|
     date_enies.each do |url_key, url_entries|
       pv = url_entries.count
       uu = url_entries.collect {|entry| entry.ip_address }.uniq.count
-      
+
       AccessInfo.create(
         :url => url_key,
         :pv => pv,
